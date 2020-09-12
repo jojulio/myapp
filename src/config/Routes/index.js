@@ -1,13 +1,18 @@
-import views from '../../components/Views';
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import PrivateRoute from './privateRoute';
+import viewsPrivate from './Views/private';
+import viewsPublic from './Views/public';
 
-const DASHBOARD = {
-	component: views.Dashboard,
-	path: '/'
-};
+const routeViewsPrivate = viewsPrivate.map(({path, component}) => <PrivateRoute key={path} path={path} component={component} exact />);
+const routeViewsPublic = viewsPublic.map(({path, component}) => <Route key={path} path={path} component={component} exact />);
 
-const USER = {
-	component: views.User,
-	path: '/user'
-};
+const Routes = () => (
+	<BrowserRouter>
+		<Switch>
+			{routeViewsPrivate} {routeViewsPublic}
+		</Switch>
+ 	</BrowserRouter>
+);
 
-export default [DASHBOARD, USER];
+export default Routes;
