@@ -857,7 +857,20 @@ ul.breadcrumbs {
     opacity: 0.7;
 }
 
+.error-message {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    left: 0;
+    background: #a891ff;
+    color: #fff;
+    padding: 5px;
+}
 
+.login-form-body {
+    position: relative;
+}
 
 /* register 4 page */
 
