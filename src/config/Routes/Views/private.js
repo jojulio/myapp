@@ -10,4 +10,9 @@ const DASHBOARD = {
 	path: '/',
 };
 
-export default [USER, DASHBOARD]
+const NOTFOUND = {
+	component: views.NotFound,
+	path: '*'
+}
+
+export default [USER, DASHBOARD, NOTFOUND];

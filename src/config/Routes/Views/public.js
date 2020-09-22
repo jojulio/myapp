@@ -1,4 +1,5 @@
 import views from '../../../components/Views';
+import { logout } from '../../../services/auth';
 
 const LOGIN = {
 	component: views.Login,
@@ -6,4 +7,9 @@ const LOGIN = {
 	private: true
 };
 
-export default [LOGIN];
+const LOGOUT = {
+	component: logout,
+	path: '/logout'
+}
+
+export default [LOGIN, LOGOUT];

@@ -10,7 +10,8 @@ const routeViewsPublic = viewsPublic.map(({path, component}) => <Route key={path
 const Routes = () => (
 	<BrowserRouter>
 		<Switch>
-			{routeViewsPrivate} {routeViewsPublic}
+			{routeViewsPublic} 
+			{routeViewsPrivate}
 		</Switch>
  	</BrowserRouter>
 );
