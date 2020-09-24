@@ -9,5 +9,6 @@ export const login = token => {
 }
 
 export const logout = () => {
+	// TODO: redirect do '/login' after to remove item from storage
 	localStorage.removeItem(TOKEN_KEY);
 }

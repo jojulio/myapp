@@ -16,7 +16,6 @@ const Login = () => {
 
 	function onChange(e) {
 		const { value, name } = e.target;
-		console.log(value, name)
 		setValues({
 			...values,
 			[name]: value

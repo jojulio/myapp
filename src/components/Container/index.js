@@ -7,7 +7,7 @@ function Container(props) {
 				<div className="col-12 mt-3">
 					<div className="card">
 						<div className="card-body"> 
-						{props.children}
+							{ props.children }
 						</div>
 					</div>
 				</div>
