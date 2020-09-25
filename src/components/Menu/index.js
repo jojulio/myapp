@@ -21,7 +21,7 @@ function Menu() {
 									</NavLink>
 								</li>
 								<li id="menu-users">
-									<NavLink exact to="/user">
+									<NavLink to="/user">
 										<FaUsers /><span>Usuários</span>
 									</NavLink>
 								</li>

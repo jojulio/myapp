@@ -5,6 +5,11 @@ const USER = {
 	path: '/user',
 };
 
+const SHOWUSER = {
+	component: views.ShowUser,
+	path: '/user/:id',
+};
+
 const DASHBOARD = {
 	component: views.Dashboard,
 	path: '/',
@@ -15,4 +20,4 @@ const NOTFOUND = {
 	path: '*'
 }
 
-export default [USER, DASHBOARD, NOTFOUND];
+export default [USER, SHOWUSER, DASHBOARD, NOTFOUND];

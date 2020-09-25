@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Menu from '../../components/Menu';
 import Header from '../../components/Header';
 import PageTitle from '../../components/PageTitle';
@@ -8,6 +9,7 @@ import PageLoading from 'react-page-loading';
 
 import api from '../../services/api';
 
+
 async function getusers() {
 	try {
 		return await api.get('/users');
@@ -16,19 +18,18 @@ async function getusers() {
 	}
 }
 
-function show(id) {
-	console.log(id)
-}
-
 const User = () => {
+	const history = useHistory();
 	const [values, setValues] = useState({users: []});
 	
 	useEffect(() => {
 		const users = getusers();
 		users.then(users => {
-			setValues({
-				users: users.data
-			});
+			if (users) {
+				setValues({
+					users: users.data
+				});
+			}
 		});
 	}, []);
 
@@ -43,6 +44,10 @@ const User = () => {
 				</tr>
 			)
 		});
+	}
+
+	function show(id) {
+		history.push(`/user/${id}`);
 	}
 
 	return (
