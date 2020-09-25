@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import PageLoading from 'react-page-loading';
 import { useToasts } from 'react-toast-notifications';
 import Menu from '../../components/Menu';
@@ -9,19 +8,9 @@ import Container from '../../components/Container';
 import PageContainer from '../../components/PageContainer';
 import api from '../../services/api';
 
-const Show = ({ content }) => {
+const Add = () => {
 	const { addToast } = useToasts();
 	const [values, setValues] = useState([]);
-	const { id } = useParams();
-
-	useEffect(() => {
-		const resp = api.get(`/users/${id}`);
-		resp.then(user => {
-			if (user) {
-				setValues(user.data);
-			}
-		});
-	}, [id]);
 
 	function onSubmit(e) {
 		e.preventDefault();
@@ -29,9 +18,9 @@ const Show = ({ content }) => {
 		const { id, username, email, password } = values;
 
 		if (!username || !email) {
-			console.error('username e e-mail não podem ser vazios')
+			addToast('Username e e-mail não podem ser vazios', { appearance: 'warning', autoDismiss: true })
 		} else {
-			const resp = api.put(`users/${id}`, { username, email, password });
+			const resp = api.post(`users`, { username, email, password });
 			resp.then(user => {
 				if (user) {
 					addToast('Salvo com sucesso', { appearance: 'success', autoDismiss: true })
@@ -59,7 +48,7 @@ const Show = ({ content }) => {
 				<Menu />
 				<div className="main-content">
 					<Header />
-					<PageTitle pageTitle="Usuários" />
+					<PageTitle pageTitle="Novo usuário" />
 					<Container>
 						<form onSubmit={onSubmit}>
 							<div className="form-row align-items-center">
@@ -92,4 +81,4 @@ const Show = ({ content }) => {
 	);
 }
 
-export default Show;
+export default Add;

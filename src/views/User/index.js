@@ -50,6 +50,10 @@ const User = () => {
 		history.push(`/user/${id}`);
 	}
 
+	function add() {
+		history.push(`/user/add`);
+	}
+
 	return (
 		<PageContainer>
 			<PageLoading loader={"bar"} color={"#6a56a5"} size={10}>
@@ -59,8 +63,8 @@ const User = () => {
 					<PageTitle pageTitle="Usuários" />
 					<Container>
 						<div className="row">
-							<div className="col-sm-12">
-								<button type="submit" className="btn btn-primary btn-sm btn-xs" id="save"> Salvar</button>
+							<div className="col-sm-12 mb-4">
+								<button onClick={ () => add() } type="submit" className="btn btn-primary btn-sm btn-xs"> Cadastrar</button>
 							</div>
 							<div className="col-sm-12">
 								<table className="table table-striped table-bordered table-hover">

@@ -6,7 +6,7 @@ import api from '../../services/api';
 import { login } from '../../services/auth';
 
 function initialState() {
-	return { email: 'diego3@rocketseat.com.br', password: '123456' };
+	return { email: '', password: '' };
 }
 
 const Login = () => {
