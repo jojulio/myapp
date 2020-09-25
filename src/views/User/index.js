@@ -58,18 +58,25 @@ const User = () => {
 					<Header />
 					<PageTitle pageTitle="Usuários" />
 					<Container>
-						<table className="table table-striped table-bordered table-hover">
-							<thead>
-								<tr>
-									<td>ID</td>
-									<td>Username</td>
-									<td>E-mail</td>
-								</tr>
-							</thead>
-							<tbody>
-								{ renderTableData() }
-							</tbody>
-						</table>
+						<div className="row">
+							<div className="col-sm-12">
+								<button type="submit" className="btn btn-primary btn-sm btn-xs" id="save"> Salvar</button>
+							</div>
+							<div className="col-sm-12">
+								<table className="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<td>ID</td>
+											<td>Username</td>
+											<td>E-mail</td>
+										</tr>
+									</thead>
+									<tbody>
+										{ renderTableData() }
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</Container>
 				</div>
 			</PageLoading>
