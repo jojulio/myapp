@@ -9,7 +9,6 @@ import PageLoading from 'react-page-loading';
 
 import api from '../../services/api';
 
-
 async function getusers() {
 	try {
 		return await api.get('/users');

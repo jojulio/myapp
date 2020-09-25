@@ -6,7 +6,7 @@ import api from '../../services/api';
 import { login } from '../../services/auth';
 
 function initialState() {
-	return { email: '', password: '' };
+	return { email: 'julio@email.com', password: '123' };
 }
 
 const Login = () => {
@@ -26,15 +26,17 @@ const Login = () => {
 		e.preventDefault();
 
 		const { email, password  } = values;
-
+		
 		if (!email || !password) {
 			setError('Preencha e-mail e senha para continuar');
 		} else {
 			try {
 				const response = await api.post('/sessions', { email, password });
-				login(response.data.token);
+				const user = { token: response.data.token, username: 'teste' }
+				login(user);
 				history.push('/');
 			} catch (err) {
+				console.error(err);
 				setError('Login e senha inválido');
 				setValues(initialState);
 			}

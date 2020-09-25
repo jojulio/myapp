@@ -15,7 +15,7 @@ const Add = () => {
 	function onSubmit(e) {
 		e.preventDefault();
 
-		const { id, username, email, password } = values;
+		const { username, email, password } = values;
 
 		if (!username || !email) {
 			addToast('Username e e-mail não podem ser vazios', { appearance: 'warning', autoDismiss: true })
