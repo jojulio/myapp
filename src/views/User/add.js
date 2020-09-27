@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PageLoading from 'react-page-loading';
 import { useToasts } from 'react-toast-notifications';
 import Menu from '../../components/Menu';
@@ -8,9 +9,17 @@ import Container from '../../components/Container';
 import PageContainer from '../../components/PageContainer';
 import api from '../../services/api';
 
+function initialState() {
+	return {
+		username: '', 
+		email: '', 
+		password: ''
+	}
+}
 const Add = () => {
+	const history = useHistory();
 	const { addToast } = useToasts();
-	const [values, setValues] = useState([]);
+	const [values, setValues] = useState(initialState);
 
 	function onSubmit(e) {
 		e.preventDefault();
@@ -23,7 +32,8 @@ const Add = () => {
 			const resp = api.post(`users`, { username, email, password });
 			resp.then(user => {
 				if (user) {
-					addToast('Salvo com sucesso', { appearance: 'success', autoDismiss: true })
+					addToast('Salvo com sucesso', { appearance: 'success', autoDismiss: true });
+					history.push(`/user/${user.data.id}`);
 				}
 			})
 			.catch(error => {

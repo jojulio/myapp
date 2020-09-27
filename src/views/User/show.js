@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import PageLoading from 'react-page-loading';
 import { useToasts } from 'react-toast-notifications';
+import SweetAlert from 'sweetalert2-react';
 import Menu from '../../components/Menu';
 import Header from '../../components/Header';
 import PageTitle from '../../components/PageTitle';
@@ -10,8 +11,10 @@ import PageContainer from '../../components/PageContainer';
 import api from '../../services/api';
 
 const Show = ({ content }) => {
+	const history = useHistory();
 	const { addToast } = useToasts();
 	const [values, setValues] = useState([]);
+	const [alert, setAlert] = useState({ show: false });
 	const { id } = useParams();
 
 	useEffect(() => {
@@ -53,6 +56,21 @@ const Show = ({ content }) => {
 		});
 	}
 
+	function remove() {
+		const id = values.id;
+		const resp = api.delete(`users/${id}`,);
+		resp.then(() => {
+			addToast('Removido com sucesso', { appearance: 'success', autoDismiss: true });
+			history.push('/user');
+		})
+		.catch(error => {
+			console.log(error)
+			addToast('Não foi possível remover', { appearance: 'error', autoDismiss: true });
+		});
+
+		setAlert({ show: false });
+	}
+
 	return (
 		<PageContainer>
 			<PageLoading loader={"bar"} color={"#6a56a5"} size={10}>
@@ -82,12 +100,19 @@ const Show = ({ content }) => {
 
 								<div className="col-sm-12 my-3">
 									<button type="submit" className="btn btn-primary btn-sm btn-xs"> Salvar</button>
+									<button onClick={ () => setAlert({ show: true }) } type="button" className="btn btn-danger btn-sm btn-xs ml-3"> Remover</button>
 								</div>
 							</div>
 						</form>
 					</Container>
 				</div>
 			</PageLoading>
+			<SweetAlert
+				show={ alert.show }
+				title="Remover"
+				text={`Tem certeza que deseja remover o usuário ${values.username}?`}
+				onConfirm={ () => remove() }
+			/>
 		</PageContainer>
 	);
 }
