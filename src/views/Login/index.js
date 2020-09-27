@@ -31,9 +31,10 @@ const Login = () => {
 			setError('Preencha e-mail e senha para continuar');
 		} else {
 			try {
-				const response = await api.post('/sessions', { email, password });
-				const user = { token: response.data.token, username: 'teste' }
-				login(user);
+				const sessions = await api.post('/sessions', { email, password });
+				const token = sessions.data.token;
+				const user = await api.get('/sessions/user', { headers: { Authorization: 'Bearer '.concat(token) } });
+				login({ token, username: user.data.username });
 				history.push('/');
 			} catch (err) {
 				console.error(err);
