@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import PageLoading from 'react-page-loading';
 import { useToasts } from 'react-toast-notifications';
 import SweetAlert from 'sweetalert2-react';
+import Select from 'react-select';
 import Menu from '../../components/Menu';
 import Header from '../../components/Header';
 import PageTitle from '../../components/PageTitle';
@@ -10,10 +11,23 @@ import Container from '../../components/Container';
 import PageContainer from '../../components/PageContainer';
 import api from '../../services/api';
 
-const Show = ({ content }) => {
+function initialState() {
+	return {
+		username: '', 
+		email: '', 
+		password: '',
+		permission: ''
+	}
+}
+
+const Show = () => {
+	const optionsPermissions = [
+		{ value: 'admin', label: 'Admin' },
+		{ value: 'programmer', label: 'Programador' },
+	];
 	const history = useHistory();
 	const { addToast } = useToasts();
-	const [values, setValues] = useState([]);
+	const [values, setValues] = useState(initialState());
 	const [alert, setAlert] = useState({ show: false });
 	const { id } = useParams();
 
@@ -71,6 +85,16 @@ const Show = ({ content }) => {
 		setAlert({ show: false });
 	}
 
+	function onChangeSelect(e) {
+		const { value } = e;
+		setValues({
+			...values,
+			permission: value
+		});
+	}
+
+	let teste = { value: 'programmer', label: 'Programador' };
+
 	return (
 		<PageContainer>
 			<PageLoading loader={"bar"} color={"#6a56a5"} size={10}>
@@ -85,19 +109,24 @@ const Show = ({ content }) => {
 	
 								<div className="col-sm-3 my-1">
 									<label className="col-form-label">Username</label>
-									<input className="form-control form-control-sm" type="text" name="username" onChange={onChange} value={values.username} />
+									<input className="form-control" type="text" name="username" onChange={onChange} value={values.username} />
 								</div>
 
 								<div className="col-sm-3 my-1">
 									<label className="col-form-label">E-mail</label>
-									<input className="form-control form-control-sm" type="email" name="email" onChange={onChange} value={values.email} />
+									<input className="form-control" type="email" name="email" onChange={onChange} value={values.email} />
 								</div>
 
 								<div className="col-sm-3 my-1">
 									<label className="col-form-label">Senha</label>
-									<input className="form-control form-control-sm" type="password" name="password" onChange={onChange} value={values.newPassword} />
+									<input className="form-control" type="password" name="password" onChange={onChange} value={values.newPassword} />
 								</div>
 
+								<div className="col-sm-3 my-1">
+									<label className="col-form-label">Permissão</label>
+  									<Select options={ optionsPermissions } onChange={ onChangeSelect } value={ teste } />
+								</div>
+								
 								<div className="col-sm-12 my-3">
 									<button type="submit" className="btn btn-primary btn-sm btn-xs"> Salvar</button>
 									<button onClick={ () => setAlert({ show: true }) } type="button" className="btn btn-danger btn-sm btn-xs ml-3"> Remover</button>

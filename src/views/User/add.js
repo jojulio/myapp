@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PageLoading from 'react-page-loading';
+import Select from 'react-select';
 import { useToasts } from 'react-toast-notifications';
 import Menu from '../../components/Menu';
 import Header from '../../components/Header';
@@ -13,10 +14,15 @@ function initialState() {
 	return {
 		username: '', 
 		email: '', 
-		password: ''
+		password: '',
+		permission: ''
 	}
 }
 const Add = () => {
+	const optionsPermissions = [
+		{ value: 'admin', label: 'Admin' },
+		{ value: 'programmer', label: 'Programador' },
+	];
 	const history = useHistory();
 	const { addToast } = useToasts();
 	const [values, setValues] = useState(initialState);
@@ -24,12 +30,11 @@ const Add = () => {
 	function onSubmit(e) {
 		e.preventDefault();
 
-		const { username, email, password } = values;
-
+		const { username, email, password, permission } = values;
 		if (!username || !email) {
 			addToast('Username e e-mail não podem ser vazios', { appearance: 'warning', autoDismiss: true })
 		} else {
-			const resp = api.post(`users`, { username, email, password });
+			const resp = api.post(`users`, { username, email, password, permission });
 			resp.then(user => {
 				if (user) {
 					addToast('Salvo com sucesso', { appearance: 'success', autoDismiss: true });
@@ -52,6 +57,14 @@ const Add = () => {
 		});
 	}
 
+	function onChangeSelect(e) {
+		const { value } = e;
+		setValues({
+			...values,
+			permission: value
+		});
+	}
+
 	return (
 		<PageContainer>
 			<PageLoading loader={"bar"} color={"#6a56a5"} size={10}>
@@ -66,17 +79,22 @@ const Add = () => {
 	
 								<div className="col-sm-3 my-1">
 									<label className="col-form-label">Username</label>
-									<input className="form-control form-control-sm" type="text" name="username" onChange={onChange} value={values.username} />
+									<input className="form-control" type="text" name="username" onChange={ onChange } value={ values.username } />
 								</div>
 
 								<div className="col-sm-3 my-1">
 									<label className="col-form-label">E-mail</label>
-									<input className="form-control form-control-sm" type="email" name="email" onChange={onChange} value={values.email} />
+									<input className="form-control" type="email" name="email" onChange={ onChange } value={ values.email } />
 								</div>
 
 								<div className="col-sm-3 my-1">
 									<label className="col-form-label">Senha</label>
-									<input className="form-control form-control-sm" type="password" name="password" onChange={onChange} value={values.newPassword} />
+									<input className="form-control" type="password" name="password" onChange={ onChange } value={ values.newPassword } />
+								</div>
+
+								<div className="col-sm-3 my-1">
+									<label className="col-form-label">Permissão</label>
+  									<Select options={ optionsPermissions } onChange={ onChangeSelect } defaultValue={ values.permission } />
 								</div>
 
 								<div className="col-sm-12 my-3">
