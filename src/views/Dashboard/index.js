@@ -1,14 +1,15 @@
 import React from 'react';
+import PageLoading from 'react-page-loading';
 import Menu from '../../components/Menu';
 import Header from '../../components/Header';
 import PageTitle from '../../components/PageTitle';
 import Container from '../../components/Container';
-import PageLoading from 'react-page-loading';
+import PageContainer from '../../components/PageContainer';
 
 export default class Dashboard extends React.Component {
 	render(){
 		return (
-			<div className="page-container">
+			<PageContainer>
 				<PageLoading loader={"bar"} color={"#6a56a5"} size={10}>
 					<Menu />
 					<div className="main-content">
@@ -22,7 +23,7 @@ export default class Dashboard extends React.Component {
 						</Container>
 					</div>
 				</PageLoading>
-			</div>
+			</PageContainer>
 		);
 	}
  }

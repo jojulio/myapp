@@ -1,18 +1,24 @@
 import React from 'react';
-import { isAuthenticated } from '../../services/auth';
+import { isAuthenticated, getUser } from '../../services/auth';
 import { Route, Redirect } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-	<Route
-	  {...rest}
-	  render = {props =>
-		isAuthenticated() ? (
-		  <Component {...props} />
-		) : (
-		  <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
-		)
-	  }
-	/>
+const PrivateRoute = ({ component: Component, roles, ...rest }) => (
+	<Route {...rest} render={props => {
+        const currentUser = JSON.parse(getUser());
+        if (!isAuthenticated) {
+            // not logged in so redirect to login page with the return url
+            return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        }
+
+        // check if route is restricted by role
+        if (roles && roles.indexOf(currentUser.permission) === -1) {
+            // role not authorised so redirect to home page
+            return <Redirect to={{ pathname: '/'}} />
+        }
+
+        // authorised so return component
+        return <Component {...props} />
+    }} />
 );
 
 export default PrivateRoute;

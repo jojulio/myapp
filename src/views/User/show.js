@@ -11,7 +11,7 @@ import Container from '../../components/Container';
 import PageContainer from '../../components/PageContainer';
 import api from '../../services/api';
 
-function initialState() {
+function initialUser() {
 	return {
 		username: '', 
 		email: '', 
@@ -20,14 +20,23 @@ function initialState() {
 	}
 }
 
-const Show = () => {
-	const optionsPermissions = [
-		{ value: 'admin', label: 'Admin' },
-		{ value: 'programmer', label: 'Programador' },
+function initialPermission() {
+	return { value: '', label: '' };
+}
+
+function getPermissions() {
+	return [
+		{ value: 'admin', label: 'admin' },
+		{ value: 'programmer', label: 'programmer' },
 	];
+}
+
+const Show = () => {
+	const optionsPermissions = getPermissions();
 	const history = useHistory();
 	const { addToast } = useToasts();
-	const [values, setValues] = useState(initialState());
+	const [values, setValues] = useState(initialUser());
+	const [permission, setPermission] = useState(initialPermission());
 	const [alert, setAlert] = useState({ show: false });
 	const { id } = useParams();
 
@@ -36,6 +45,7 @@ const Show = () => {
 		resp.then(user => {
 			if (user) {
 				setValues(user.data);
+				setPermission({ value: user.data.permission, label: user.data.permission });
 			}
 		});
 	}, [id]);
@@ -43,12 +53,12 @@ const Show = () => {
 	function onSubmit(e) {
 		e.preventDefault();
 
-		const { id, username, email, password } = values;
+		const { id, username, email, password, permission} = values;
 
 		if (!username || !email) {
 			console.error('username e e-mail não podem ser vazios')
 		} else {
-			const resp = api.put(`users/${id}`, { username, email, password });
+			const resp = api.put(`users/${id}`, { username, email, password, permission });
 			resp.then(user => {
 				if (user) {
 					addToast('Salvo com sucesso', { appearance: 'success', autoDismiss: true })
@@ -86,14 +96,14 @@ const Show = () => {
 	}
 
 	function onChangeSelect(e) {
-		const { value } = e;
+		const { value, label } = e;
 		setValues({
 			...values,
 			permission: value
 		});
-	}
 
-	let teste = { value: 'programmer', label: 'Programador' };
+		setPermission({ value, label });
+	}
 
 	return (
 		<PageContainer>
@@ -124,7 +134,7 @@ const Show = () => {
 
 								<div className="col-sm-3 my-1">
 									<label className="col-form-label">Permissão</label>
-  									<Select options={ optionsPermissions } onChange={ onChangeSelect } value={ teste } />
+  									<Select options={ optionsPermissions } onChange={ onChangeSelect } value={ permission } />
 								</div>
 								
 								<div className="col-sm-12 my-3">

@@ -34,12 +34,13 @@ const User = () => {
 
 	function renderTableData() {
 		return values.users.map(user => {
-			const { id, username, email } = user;
+			const { id, username, email, permission } = user;
 			return (
 				<tr key={id} onClick={() => show(id)}>
 					<td>{id}</td>
 					<td>{username}</td>
 					<td>{email}</td>
+					<td>{permission}</td>
 				</tr>
 			)
 		});
@@ -72,6 +73,7 @@ const User = () => {
 											<td>ID</td>
 											<td>Username</td>
 											<td>E-mail</td>
+											<td>Pemrissão</td>
 										</tr>
 									</thead>
 									<tbody>

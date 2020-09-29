@@ -4,7 +4,7 @@ import PrivateRoute from './privateRoute';
 import viewsPrivate from './Views/private';
 import viewsPublic from './Views/public';
 
-const routeViewsPrivate = viewsPrivate.map(({path, component}) => <PrivateRoute key={path} path={path} component={component} exact />);
+const routeViewsPrivate = viewsPrivate.map(({path, component, roles}) => <PrivateRoute key={path} path={path} roles={roles} component={component} exact />);
 const routeViewsPublic = viewsPublic.map(({path, component}) => <Route key={path} path={path} component={component} exact />);
 
 const Routes = () => (
