@@ -1,25 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { isAuthenticated, getUser, isExpired, renovateToken } from '../../services/auth';
 import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, roles, ...rest }) => {
-    useEffect(() => {
-        async function auth() {
-            if (isExpired()) {
-                renovateToken();
-            }
-        }
-
-        auth();
-    }, []);
-
     return (
         <Route 
             {...rest} 
             render = { 
                 props => {
                     const currentUser = JSON.parse(getUser());
-                    
+                    if (isExpired()) {
+                        renovateToken();
+                    }
                     if (!isAuthenticated()) {
                         return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
                     }
