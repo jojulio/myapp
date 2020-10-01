@@ -33,8 +33,16 @@ const Login = () => {
 			try {
 				const sessions = await api.post('/sessions', { email, password });
 				const token = sessions.data.token;
+				const refreshToken = sessions.data.refreshToken;
 				const user = await api.get('/sessions/user', { headers: { Authorization: 'Bearer '.concat(token) } });
-				login({ token, username: user.data.username, permission: user.data.permission });
+				
+				login({ 
+					token, 
+					refreshToken, 
+					username: user.data.username, 
+					permission: user.data.permission 
+				});
+
 				history.push('/');
 			} catch (err) {
 				console.error(err);
